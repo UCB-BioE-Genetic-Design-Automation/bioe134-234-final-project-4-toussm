@@ -99,8 +99,6 @@ def parse_constraints_summary(summary, gene, protein, transcript_dna, validation
         summary,
         re.DOTALL
     )
-    # if len(avoid_pattern_failures) > len(transcript_dna) // 300:
-    #     constraint_aggregates["Forbidden Patterns"].append("True")
     for pattern, locations in avoid_pattern_failures:
         formatted_locations = locations.replace('\n', ' ').replace('"', "'").strip()
         constraint_aggregates["Forbidden Patterns"].append(f"{pattern} at {formatted_locations}")

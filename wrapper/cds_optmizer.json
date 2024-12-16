@@ -1,0 +1,47 @@
+{
+    "id": "org.c9.function.bioe_134.DNA.transcript_designer",
+    "name": "Transcript Designer",
+    "description": "Generates and optimizes a DNA transcript for a given protein sequence. Ensures codon optimization, GC content, and removal of forbidden sequences, tailored for S. cerevisiae.",
+    "type": "function",
+    "keywords": ["genetics", "DNA", "transcript", "bioinformatics", "S. cerevisiae"],
+    "inputs": [
+        {
+            "name": "protein",
+            "type": "string",
+            "description": "The input protein sequence for which a DNA transcript will be designed. The sequence should use standard amino acid single-letter codes."
+        }
+    ],
+    "outputs": [
+        {
+            "name": "optimized_dna",
+            "type": "string",
+            "description": "The optimized DNA sequence for the input protein."
+        },
+        {
+            "name": "optimization_summary",
+            "type": "string",
+            "description": "A summary of the constraints and objectives applied during optimization, including any constraints that were not satisfied."
+        }
+    ],
+    "examples": [
+        {
+            "input": {"protein": "MGLILRWKEKKQLSSKQNAQKSRKPANTSFRQQRLKAWQPILSPQSVLPL"},
+            "output": {
+                "optimized_dna": "ATGGCATTGTTTTCGATCGCCGTGCTCGCCGTGGCCTCGTTGCTTCCTGATGTTGCCGAGTGCCGGGATCGTTGTTCCAG",
+                "optimization_summary": "✔PASS EnforceGCContent[0-72](mini:0.30, maxi:0.60)\n✔PASS AvoidHairpins[0-72](stem_size:10, hairpin_window:30)\n✔PASS AvoidPattern[0-72](pattern:GAATTC)\n..."
+            }
+        },
+        {
+            "input": {"protein": "MAGWQ"},
+            "output": {
+                "optimized_dna": "ATGGCCGGGTGGCAGTAA",
+                "optimization_summary": "✔PASS EnforceGCContent[0-18](mini:0.30, maxi:0.60)\n✔PASS AvoidPattern[0-18](pattern:GAATTC)\n..."
+            }
+        }
+    ],
+    "execution_details": {
+        "language": "Python",
+        "source": "transcriptDesigner/transcript_designer.py",
+        "execution": "run"
+    }
+}

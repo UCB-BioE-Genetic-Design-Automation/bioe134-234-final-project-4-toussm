@@ -1,0 +1,36 @@
+{
+    "id": "org.c9.function.bioe_134.DNA.one_to_one_reverse_translate",
+    "name": "One-to-One Reverse Translation",
+    "description": "Performs a simple one-to-one reverse translation of a protein sequence into a DNA sequence using the most frequently used codons for each amino acid.",
+    "type": "function",
+    "keywords": ["genetics", "DNA", "reverse translation", "codon optimization", "bioinformatics"],
+    "inputs": [
+        {
+            "name": "peptide",
+            "type": "string",
+            "description": "The input protein sequence to be reverse-translated. The sequence must use standard amino acid single-letter codes."
+        }
+    ],
+    "outputs": [
+        {
+            "name": "dna_sequence",
+            "type": "string",
+            "description": "The reverse-translated DNA sequence corresponding to the input protein sequence."
+        }
+    ],
+    "examples": [
+        {
+            "input": {"peptide": "MAGW"},
+            "output": {"dna_sequence": "ATGGCCGGTTGG"}
+        },
+        {
+            "input": {"peptide": "MGLILRWKEKKQL"},
+            "output": {"dna_sequence": "ATGGCATTGTTTTAATTCTTGCCTGGTAAAGAAAAGCAACTT"}
+        }
+    ],
+    "execution_details": {
+        "language": "Python",
+        "source": "transcriptDesigner/one_to_one_revTranslate.py",
+        "execution": "run"
+    }
+}

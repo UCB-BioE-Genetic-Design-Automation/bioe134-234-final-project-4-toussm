@@ -25,7 +25,7 @@ class TranscriptDesigner:
             constraints=[
                 EnforceTranslation(translation=peptide),
                 EnforceGCContent(mini=0.2, maxi=0.6),
-                AvoidHairpins(stem_size=10, hairpin_window=30),  # Avoid hairpins in the sequence
+                AvoidHairpins(stem_size=10, hairpin_window=30),  # Avoid hairpins in the sequence. Yeast have stems about 10bp with loops 3-10bp
                 AvoidPattern("GAATTC"),  # Avoid EcoRI restriction site
                 AvoidPattern("GGATCC"),  # Avoid BamHI restriction site
                 AvoidPattern("AAAAAAA"),  # Avoid poly(A)
@@ -47,6 +47,14 @@ class TranscriptDesigner:
                 AvoidPattern("CACCTGC"),   # AarI
                 AvoidPattern("CTGCAG"),    # PstI
                 AvoidPattern("CTCGAG"),    # XhoI
+                AvoidPattern("TATTTTAATTAG"),
+                AvoidPattern("TATATAAATAC"),
+                AvoidPattern("ATAATTAACTG"),
+                AvoidPattern("TATAAAAATTA"),
+                AvoidPattern("TGCGTGCTGTTT"),
+                AvoidPattern("TATATAAAACT"),
+                AvoidPattern("TATTGTTTATTG"),
+                AvoidPattern("TATAAGGTCTG"),
                 AvoidRareCodons(species="s_cerevisiae", min_frequency=0.1)
             ],
             objectives=[
