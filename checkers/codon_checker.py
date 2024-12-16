@@ -1,6 +1,5 @@
 from collections import Counter  # Import Counter for counting codons
 import csv
-import os
 
 class CodonChecker:
     """
@@ -56,7 +55,7 @@ class CodonChecker:
         :return: Tuple containing a boolean, codon diversity, rare codon count, and CAI score.
         """
         if not cds:
-            return False, 0.0, 0, 0.0  # Return false for empty CDS
+            return False, 0.0, 0.0  # Return false for empty CDS
 
         # Calculate codon diversity
         codons = [cds[i:i+3] for i in range(0, len(cds), 3)]
