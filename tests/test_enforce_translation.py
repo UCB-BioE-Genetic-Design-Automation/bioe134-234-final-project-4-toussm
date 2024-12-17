@@ -1,6 +1,6 @@
 import pytest
 from dnachisel import *
-from transcriptDesigner.one_to_one_revTranslate import oneToOneReverseTranslate
+from cdsDesigner.one_to_one_revTranslate import oneToOneReverseTranslate
 
 @pytest.fixture
 def translation_test_case():

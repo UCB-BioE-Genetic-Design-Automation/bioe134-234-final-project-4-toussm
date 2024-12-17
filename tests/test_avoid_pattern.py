@@ -28,6 +28,8 @@ def forbidden_patterns():
         "CACCTGC",  # AarI
         "CTGCAG",  # PstI
         "CTCGAG",  # XhoI
+        "TATTTTAATTAG", # TDH3 (GPD1)
+        "TATTTTAATTAG" # TEF1
     ]
 
 
@@ -65,6 +67,9 @@ def test_dnachisel_avoids_all_patterns(forbidden_patterns):
                     AvoidPattern("CACCTGC"),   # AarI
                     AvoidPattern("CTGCAG"),    # PstI
                     AvoidPattern("CTCGAG"),    # XhoI
+                    # Constitutive Promoter examples
+                    AvoidPattern("TATTTTAATTAG"), # TDH3 (GPD1)
+                    AvoidPattern("TATTTTAATTAG") # TEF1
                      ],
         objectives=[
                 CodonOptimize(species='s_cerevisiae')  # Optimize for S. cerevisiae codon usage

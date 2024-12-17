@@ -6,7 +6,7 @@ def gc_content_limits():
     """
     Fixture providing the GC content range for testing.
     """
-    return 0.4, 0.6  # 40% to 60% GC content
+    return 0.3, 0.6  # 30% to 60% GC content
 
 
 def test_dnachisel_enforces_gc_content(gc_content_limits):

@@ -1,75 +1,93 @@
 {
   "prompts": [
     {
-      "request": "What would you get if you flipped and complemented 'ATGC'?",
+      "request": "Can you reverse-translate 'MA' into DNA?",
       "expected_call": {
-        "function_id": "org.c9.function.bioe_134.reverse_complement",
+        "function_id": "org.c9.function.bioe_134.one_to_one_reverse_translate",
         "arguments": {
-          "sequence": "ATGC"
+          "peptide": "MA"
         }
       },
       "expected_response": {
-        "sequence": "GCAT"
+        "dna_sequence": "ATGGCC"
       }
     },
     {
-      "request": "Turn 'ATGGCC' into amino acids.",
+      "request": "What DNA sequence would you get from 'MGLRW' using the best codons?",
       "expected_call": {
-        "function_id": "org.c9.function.bioe_134.translate",
+        "function_id": "org.c9.function.bioe_134.one_to_one_reverse_translate",
         "arguments": {
-          "sequence": "ATGGCC"
+          "peptide": "MGLRW"
         }
       },
       "expected_response": {
-        "sequence": "MA"
+        "dna_sequence": "ATGGGCCTGCTGCGTGG"
       }
     },
     {
-      "request": "Flip and complement 'GCTAGC' for me.",
+    "request": "Design and optimize a DNA sequence for yeast to encode the protein 'MGLRW'.",
       "expected_call": {
-        "function_id": "org.c9.function.bioe_134.reverse_complement",
+        "function_id": "org.c9.function.bioe_134.cdsDesigner",
         "arguments": {
-          "sequence": "GCTAGC"
+          "protein": "MGLRW"
         }
       },
       "expected_response": {
-        "sequence": "GCTAGC"
+        "optimized_dna": "ATGGGCCTGCTGCGTGG",
+        "optimization_summary": "✔PASS ┍ EnforceTranslation[0-15]\n      │ Enforced by nucleotides restrictions\n✔PASS ┍ EnforceGCContent[0-15](mini:0.30, maxi:0.60)\n      │ Passed !\n✔PASS ┍ AvoidHairpins[0-15](stem_size:10, hairpin_window:30)\n      │ Score:         0. Locations: []\n✔PASS ┍ AvoidPattern[0-15](pattern:GAATTC)\n      │ Passed. Pattern not found !\n✔PASS ┍ AvoidPattern[0-15](pattern:GGATCC)\n      │ Passed. Pattern not found !\n✔PASS ┍ AvoidPattern[0-15](pattern:TATAAA)\n      │ Passed. Pattern not found !\n✔PASS ┍ AvoidRareCodons[0-15]\n      │ Enforced by nucleotides restrictions",
+        "codon_usage_summary": "Codon Check Passed. Codon Diversity 0.34, CAI Value: 0.45"
       }
     },
     {
-      "request": "Convert 'GGTACC' to its corresponding amino acids.",
+      "request": "Translate the protein sequence 'MAKQ' into a DNA sequence using the most common codons in yeast.",
       "expected_call": {
-        "function_id": "org.c9.function.bioe_134.translate",
+        "function_id": "org.c9.function.bioe_134.one_to_one_reverse_translate",
         "arguments": {
-          "sequence": "GGTACC"
+          "peptide": "MAKQ"
         }
       },
       "expected_response": {
-        "sequence": "GP"
+        "dna_sequence": "ATGGCCAAGCAG"
       }
     },
     {
-      "request": "What’s the reverse of 'TTAGGCTA' with complements?",
+      "request": "Generate an optimized yeast DNA sequence for the protein 'MAKQ'.",
       "expected_call": {
-        "function_id": "org.c9.function.bioe_134.reverse_complement",
+        "function_id": "org.c9.function.bioe_134.cdsDesigner",
         "arguments": {
-          "sequence": "TTAGGCTA"
+          "protein": "MAKQ"
         }
       },
       "expected_response": {
-        "sequence": "TAGCCTAA"
+        "optimized_dna": "ATGGCCAAGCAG",
+        "optimization_summary": "✔PASS ┍ EnforceTranslation[0-12]\n      │ Enforced by nucleotides restrictions\n✔PASS ┍ EnforceGCContent[0-12](mini:0.30, maxi:0.60)\n      │ Passed !\n✔PASS ┍ AvoidHairpins[0-12](stem_size:10, hairpin_window:30)\n      │ Score:         0. Locations: []\n✔PASS ┍ AvoidPattern[0-12](pattern:GAATTC)\n      │ Passed. Pattern not found !\n✔PASS ┍ AvoidPattern[0-12](pattern:GGATCC)\n      │ Passed. Pattern not found !\n✔PASS ┍ AvoidPattern[0-12](pattern:TATAAA)\n      │ Passed. Pattern not found !\n✔PASS ┍ AvoidRareCodons[0-12]\n      │ Enforced by nucleotides restrictions", 
+        "codon_usage_summary": "Codon Check Passed. Codon Diversity 0.32, CAI Value: 0.48"
       }
     },
     {
-      "request": "Can you turn 'ATGCGTGA' into a protein sequence?",
+      "request": "Convert 'MGQST' into its reverse-translated DNA sequence.",
       "expected_call": {
-        "function_id": "org.c9.function.bioe_134.translate",
+        "function_id": "org.c9.function.bioe_134.one_to_one_reverse_translate",
         "arguments": {
-          "sequence": "ATGCGTGA"
+          "peptide": "MGQST"
         }
       },
       "expected_response": {
-        "sequence": "MR"
+        "dna_sequence": "ATGGGCCAGTCAACT"
+      }
+    },
+    {
+      "request": "Design and optimize a DNA sequence for yeast to encode the peptide 'MGQST'.",
+      "expected_call": {
+        "function_id": "org.c9.function.bioe_134.cdsDesigner",
+        "arguments": {
+          "protein": "MGQST"
+        }
+      },
+      "expected_response": {
+        "optimized_dna": "ATGGGCCAGTCAACT",
+        "optimization_summary": "✔PASS ┍ EnforceTranslation[0-15]\n      │ Enforced by nucleotides restrictions\n✔PASS ┍ EnforceGCContent[0-15](mini:0.30, maxi:0.60)\n      │ Passed !\n✔PASS ┍ AvoidHairpins[0-15](stem_size:10, hairpin_window:30)\n      │ Score:         0. Locations: []\n✔PASS ┍ AvoidPattern[0-15](pattern:GAATTC)\n      │ Passed. Pattern not found !\n✔PASS ┍ AvoidPattern[0-15](pattern:GGATCC)\n      │ Passed. Pattern not found !\n✔PASS ┍ AvoidPattern[0-15](pattern:TATAAA)\n      │ Passed. Pattern not found !\n✔PASS ┍ AvoidRareCodons[0-15]\n      │ Enforced by nucleotides restrictions",
+        "codon_usage_summary": "Codon Check Passed. Codon Diversity 0.32, CAI Value: 0.48"
       }
     }
   ]

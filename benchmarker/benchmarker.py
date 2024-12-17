@@ -3,7 +3,7 @@ import re
 import csv
 import time
 from dnachisel import *
-from transcriptDesigner.transcript_designer import TranscriptDesigner
+from cdsDesigner.cds_Designer import cdsDesigner
 from checkers.codon_checker import CodonChecker
 
 def parse_fasta(fasta_file):
@@ -39,36 +39,31 @@ def parse_fasta(fasta_file):
 
 def benchmark_proteome(fasta_file):
     """
-    Benchmarks the proteome using TranscriptDesigner.
+    Benchmarks the proteome using cdsDesigner.
     """
-    designer = TranscriptDesigner()
+    designer = cdsDesigner()
     designer.initiate()
 
     proteome = parse_fasta(fasta_file)
     successful_results = []
     error_results = []
-    i = 0
     
     for gene, protein in proteome.items():
         try:
             print(f"Processing gene: {gene} with protein sequence: {protein[:30]}...")
-            transcript = designer.run(protein)
+            cds = designer.run(protein)
             successful_results.append({
                 'gene': gene,
                 'protein': protein,
-                'transcript': transcript[0],
-                'summary' : transcript[1]
+                'cds': cds[0],
+                'summary' : cds[1]
             })
-            # if i == 9:
-            #     break
         except Exception as e:
             error_results.append({
                 'gene': gene,
                 'protein': protein,
                 'error': f"Error: {str(e)}\nTraceback: {traceback.format_exc()}"
             })
-
-        i+=1
     return successful_results, error_results
 
 def analyze_errors(error_results):
@@ -84,7 +79,7 @@ def analyze_errors(error_results):
     
     return error_summary
 
-def parse_constraints_summary(summary, gene, protein, transcript_dna, validation_failures):
+def parse_constraints_summary(summary, gene, protein, cds, validation_failures):
 
     constraint_aggregates = {
         "Forbidden Patterns": [],
@@ -139,21 +134,21 @@ def parse_constraints_summary(summary, gene, protein, transcript_dna, validation
             validation_failures.append({
                 'gene': gene,
                 'protein': protein,
-                'cds': transcript_dna,
+                'cds': cds,
                 'site': f"{constraint_type} detected: {aggregated_sites}"
             })
 
     return validation_failures
 
-def validate_transcripts(successful_results):
+def validate_sequences(successful_results):
     """
-    Validate the successful transcripts using various checkers, now including CodonChecker.
+    Validate the successful sequences using various checkers, now including CodonChecker.
     """
     codon_checker = CodonChecker()  # Initialize CodonChecker
     codon_checker.initiate()  # Load the codon usage data
     validation_failures = []
     for result in successful_results:
-        cds = ''.join(result['transcript'])
+        cds = ''.join(result['cds'])
         try:
             # Check if CDS length is a multiple of 3
             if len(cds) % 3 != 0:
@@ -188,7 +183,7 @@ def validate_transcripts(successful_results):
             })
             continue
 
-        codons_above_board, codon_diversity, cai_value = codon_checker.run(result['transcript'])
+        codons_above_board, codon_diversity, cai_value = codon_checker.run(result['cds'])
         if not codons_above_board:
             validation_failures.append({
                 'gene': result['gene'],
@@ -198,7 +193,7 @@ def validate_transcripts(successful_results):
             })
 
         # Validate against hairpins, forbidden sequences, and codons
-        parse_constraints_summary(validation_failures=validation_failures, summary=result['summary'], gene=result['gene'], protein=result['protein'], transcript_dna=result['transcript'])
+        parse_constraints_summary(validation_failures=validation_failures, summary=result['summary'], gene=result['gene'], protein=result['protein'], cds=result['cds'])
     return validation_failures
 
 def write_validation_report(validation_failures):
@@ -219,7 +214,7 @@ def generate_summary(total_genes, parsing_time, execution_time, errors_summary, 
     
    # Categorize failures by checker type
     checker_failures = {
-        'Forbidden Sequence Checker': 0,
+        'Forbidden Sequence and Constitutive Promoter Checker': 0,
         'Hairpin Checker': 0,
         'GC Content Checker': 0,
         'Rare Codons': 0,
@@ -231,7 +226,7 @@ def generate_summary(total_genes, parsing_time, execution_time, errors_summary, 
     for failure in validation_failures:
         site = failure['site']
         if "Forbidden Patterns" in site:
-            checker_failures['Forbidden Sequence Checker'] += 1
+            checker_failures['Forbidden Sequence and Constitutive Promoter Checker'] += 1
         elif "Hairpins" in site:
             checker_failures['Hairpin Checker'] += 1
         elif "GC Content" in site:
@@ -266,7 +261,7 @@ def generate_summary(total_genes, parsing_time, execution_time, errors_summary, 
 
 def run_benchmark(fasta_file):
     """
-    Runs the complete benchmark process: parsing, running TranscriptDesigner, validating, and generating reports.
+    Runs the complete benchmark process: parsing, running cdsDesigner, validating, and generating reports.
     """
     start_time = time.time()
     
@@ -278,9 +273,9 @@ def run_benchmark(fasta_file):
     # Analyze and log errors
     errors_summary = analyze_errors(error_results)
     
-    # Validate the successful transcripts
+    # Validate the successful sequences
     validation_start = time.time()
-    validation_failures = validate_transcripts(successful_results)
+    validation_failures = validate_sequences(successful_results)
     execution_time = time.time() - validation_start
 
     # Write validation and error reports

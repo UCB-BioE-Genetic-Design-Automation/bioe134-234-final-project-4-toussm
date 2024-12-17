@@ -26,7 +26,7 @@ class CodonChecker:
         """
         Loads codon usage data from a file and sets up the codon frequencies and rare codons.
         """
-        codon_usage_file = 'transcriptDesigner/data/yeast_codon_usage_table.tsv'
+        codon_usage_file = 'cdsDesigner/data/yeast_codon_usage_table.tsv'
         self.codon_frequencies = {}
 
 
@@ -69,10 +69,10 @@ class CodonChecker:
         for freq in cai_numerators:
             cai_product *= freq
         
-        cai_value = cai_product ** (1 / len(cai_numerators)) #if cai_numerators else 0.0
+        cai_value = cai_product ** (1 / len(cai_numerators))
 
         # Apply thresholds to determine if the codons are above board
-        diversity_threshold = 0.3
+        diversity_threshold = 0.3 # Average codon diversity for yeast
         cai_threshold = 0.2
 
         codons_above_board = (codon_diversity >= diversity_threshold and
