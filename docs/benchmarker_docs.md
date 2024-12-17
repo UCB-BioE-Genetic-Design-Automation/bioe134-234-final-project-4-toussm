@@ -8,7 +8,7 @@ The benchmarker not only validates sequences but also parses the optimization su
 
 ## Important Note
 
-The benchmarker at the end throws a biopython warning for one codon sequence not being a multiple of 3. However, it was able to pass my multiple of 3 check during validation and all properly translated (except for 1 that did not start with M). I believe its a non-issue, but
+The benchmarker at the end throws a biopython warning for one codon sequence not being a multiple of 3. However, it was able to pass my multiple of 3 check during validation and all proteins were properly translated (except for 1 that did not start with M). I believe its a non-issue, but
 it is important to note.
 
 ---
